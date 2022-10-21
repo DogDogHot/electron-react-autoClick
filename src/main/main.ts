@@ -48,16 +48,16 @@ ipcMain.on('ipc-example', async (event, arg) => {
 ipcMain.on('mouse-click', async (event, arg) => {
   const { x, y, rms } = arg;
 
-  let time = 0;
+  const time = 0;
   const point = new Point(x, y);
 
   const mouseInterval = setInterval(async () => {
     // TODO. arg의 값을 이용해서 interval값 수정.
-    time += 1;
-    if (time > 5) clearInterval(mouseInterval);
+    // time += 1;
+    // if (time > 5) clearInterval(mouseInterval);
 
     await mouse.setPosition(point);
-    await mouse.click(Button.RIGHT);
+    await mouse.click(Button.LEFT);
   }, rms || 1000);
 });
 
