@@ -9,10 +9,10 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, globalShortcut } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-
+import Store from 'electron-store';
 import {
   mouse,
   left,
@@ -25,9 +25,12 @@ import {
   Button,
   Point,
 } from '@nut-tree/nut-js';
+import Ipc from './ipc';
 
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+
+const store = new Store();
 
 class AppUpdater {
   constructor() {
@@ -39,27 +42,11 @@ class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
-});
+// ipc 관련 모듈 초기화
+const ipc = new Ipc();
+ipc.initIpc();
 
-ipcMain.on('mouse-click', async (event, arg) => {
-  const { x, y, rms } = arg;
-
-  const time = 0;
-  const point = new Point(x, y);
-
-  const mouseInterval = setInterval(async () => {
-    // TODO. arg의 값을 이용해서 interval값 수정.
-    // time += 1;
-    // if (time > 5) clearInterval(mouseInterval);
-
-    await mouse.setPosition(point);
-    await mouse.click(Button.LEFT);
-  }, rms || 1000);
-});
+console.log('ipc', Ipc);
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -162,6 +149,10 @@ app
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.
       if (mainWindow === null) createWindow();
+    });
+    globalShortcut.register('Shift+Esc', () => {
+      console.log('Electron loves global shortcuts!');
+      clearInterval(ipc.clickInterval);
     });
   })
   .catch(console.log);
