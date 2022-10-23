@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react';
-import icon from '../../../assets/imgs/mouseImg.png';
+import icon from '../../../assets/imgs/mouse-click-white.png';
 import '../App.css';
 
 const { ipcRenderer, store } = window.electron;
@@ -54,11 +54,24 @@ const Main = () => {
       <div className="main">
         <img width="200" alt="icon" src={icon} />
       </div>
-      <h1 style={{ textAlign: 'center' }}>Auto Mouse Click</h1>
-      x축 : <input name="x" onChange={onChange} value={x} />
-      y축 : <input name="y" onChange={onChange} value={y} /> 반복할 시간단위(ms){' '}
-      <input name="rms" onChange={onChange} value={rms} />
-      shift + esc 키를 누르면 꺼집니다.
+      <h1 className="main__title">Auto Mouse Click</h1>
+      <section>
+        <article className="main__contents">
+          <div>
+            <span>x축 클릭 위치</span>
+            <input name="x" onChange={onChange} value={x} />
+          </div>
+          <div>
+            <span>y축 클릭 위치</span>
+            <input name="y" onChange={onChange} value={y} />
+          </div>
+          <div>
+            <span>반복 시간(ms)</span>
+            <input name="rms" onChange={onChange} value={rms} />
+          </div>
+        </article>
+        <div className="text-center">shift + esc 키를 누르면 꺼집니다.</div>
+      </section>
       <div className="main">
         <button
           type="button"

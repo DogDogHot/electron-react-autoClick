@@ -20,6 +20,7 @@ body {
 }
 
 button {
+  margin-top: 20px;
   background-color: white;
   padding: 10px 20px;
   border-radius: 10px;
@@ -54,9 +55,39 @@ a:hover {
   text-decoration: none;
 }
 
+.text-center {
+  text-align: center;
+}
+/* main */
 .main {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px 0;
+}
+.main__contents > div {
+  display: flex;
+  margin-bottom: 6px;
+  align-items: center;
+  justify-content: center;
+}
+.main__contents span {
+  display: inline-block;
+  font-size: 1rem;
+  text-align: right;
+  padding-right: 10px;
+  width: 90px;
+}
+.main__contents input {
+  height: 20px;
+  border-radius: 5px;
+  width: 60px;
+  padding: 2px 6px;
+  border: transparent;
+}
+.main__title {
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  font-size: 2rem;
+  color: white;
+  margin: 15px 0px;
 }
