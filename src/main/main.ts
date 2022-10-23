@@ -9,28 +9,13 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain, globalShortcut } from 'electron';
+import { app, BrowserWindow, shell, globalShortcut } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import Store from 'electron-store';
-import {
-  mouse,
-  left,
-  right,
-  up,
-  down,
-  straightTo,
-  centerOf,
-  Region,
-  Button,
-  Point,
-} from '@nut-tree/nut-js';
 import Ipc from './ipc';
 
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
-
-const store = new Store();
 
 class AppUpdater {
   constructor() {
@@ -45,8 +30,6 @@ let mainWindow: BrowserWindow | null = null;
 // ipc 관련 모듈 초기화
 const ipc = new Ipc();
 ipc.initIpc();
-
-console.log('ipc', Ipc);
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -151,8 +134,9 @@ app
       if (mainWindow === null) createWindow();
     });
     globalShortcut.register('Shift+Esc', () => {
-      console.log('Electron loves global shortcuts!');
-      clearInterval(ipc.clickInterval);
+      console.log('global shortcuts!');
+      mainWindow?.webContents.send('mouse-click', false);
+      clearInterval(ipc.getClickInterval());
     });
   })
   .catch(console.log);

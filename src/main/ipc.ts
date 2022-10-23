@@ -15,10 +15,14 @@ import { mouse, Button, Point } from '@nut-tree/nut-js';
 const store = new Store();
 
 export default class Ipc {
-  clickInterval;
+  private clickInterval;
 
   constructor() {
     this.clickInterval = setTimeout(() => {}, 0);
+  }
+
+  public getClickInterval() {
+    return this.clickInterval;
   }
 
   public initIpc() {

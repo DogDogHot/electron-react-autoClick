@@ -20,7 +20,7 @@ const Main = () => {
     if (Number.isNaN(number)) {
       number = 0;
     }
-    if (name === 'rms' && number < 100) number = 100;
+    if (name === 'rms' && number < 100) number = 1;
     setInputs({
       ...inputs,
       [name]: number,
@@ -40,6 +40,13 @@ const Main = () => {
 
   useEffect(() => {
     if (clickValue) setInputs({ ...clickValue });
+
+    ipcRenderer.on('mouse-click', function (...args) {
+      const isClick = args[0];
+      if (!isClick) {
+        setIsStart(false);
+      }
+    });
   }, []);
 
   return (
@@ -49,7 +56,7 @@ const Main = () => {
       </div>
       <h1 style={{ textAlign: 'center' }}>Auto Mouse Click</h1>
       x축 : <input name="x" onChange={onChange} value={x} />
-      y축 : <input name="y" onChange={onChange} value={y} />x / millisecond{' '}
+      y축 : <input name="y" onChange={onChange} value={y} /> 반복할 시간단위(ms){' '}
       <input name="rms" onChange={onChange} value={rms} />
       shift + esc 키를 누르면 꺼집니다.
       <div className="main">
